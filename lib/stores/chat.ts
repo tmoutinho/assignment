@@ -10,7 +10,6 @@ interface ChatStore {
   messages: ChatMessage[]
   status: 'idle' | 'loading' | 'streaming' | 'complete' | 'paused'
   currentQuery: string
-  hasSearched: boolean
   setQuery: (query: string) => void
   startSearch: () => void
   startStreaming: (response: string) => void
@@ -24,13 +23,11 @@ export const useChatStore = create<ChatStore>((set) => ({
   messages: [],
   status: 'idle',
   currentQuery: '',
-  hasSearched: false,
 
   setQuery: (query) => set({ currentQuery: query }),
 
   startSearch: () => set({
     status: 'loading',
-    hasSearched: true,
     messages: []
   }),
 
@@ -53,6 +50,5 @@ export const useChatStore = create<ChatStore>((set) => ({
     messages: [],
     status: 'idle',
     currentQuery: '',
-    hasSearched: false,
   })
 })) 

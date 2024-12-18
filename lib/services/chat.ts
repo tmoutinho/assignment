@@ -30,7 +30,24 @@ Related Concepts:
 
 - In science fiction, the word "sentience" is often used to describe the ability of artificial intelligence or other non-human entities to experience consciousness or emotions.`,
   "The meaning of life is a philosophical and spiritual question that has intrigued humans throughout history. Different perspectives include:\n\n1. Scientific: Understanding and exploring the universe\n2. Religious: Fulfilling divine purpose\n3. Philosophical: Creating personal meaning\n4. Humanistic: Contributing to society and human progress\n\nUltimately, many argue that each individual must discover their own meaning.",
-  "Consciousness is the state of being aware of and able to think about one's own existence. Key aspects include:\n\n1. Self-awareness\n2. Subjective experiences\n3. Perception of thoughts and feelings\n4. Mental states\n\nIt remains one of the most fascinating and debated topics in philosophy, neuroscience, and psychology."
+  "Consciousness is the state of being aware of and able to think about one's own existence. Key aspects include:\n\n1. Self-awareness\n2. Subjective experiences\n3. Perception of thoughts and feelings\n4. Mental states\n\nIt remains one of the most fascinating and debated topics in philosophy, neuroscience, and psychology.",
+  `Love is a complex emotion and fundamental human experience that can take many forms:
+
+1. Types of Love:
+- Romantic love
+- Familial love
+- Platonic love
+- Self-love
+- Universal love
+
+2. Characteristics:
+- Deep affection
+- Attachment
+- Care and concern
+- Emotional connection
+- Commitment
+
+Love has been studied across disciplines including psychology, neuroscience, philosophy, and the arts, each offering unique perspectives on its nature and meaning.`
 ]
 
 export async function mockChatResponse(query: string): Promise<string> {
@@ -42,5 +59,6 @@ export async function mockChatResponse(query: string): Promise<string> {
   if (q.includes('sentient')) return MOCK_RESPONSES[0]
   if (q.includes('life')) return MOCK_RESPONSES[1]
   if (q.includes('consciousness')) return MOCK_RESPONSES[2]
+  if (q.includes('love')) return MOCK_RESPONSES[3]
   return MOCK_RESPONSES[0]
 } 

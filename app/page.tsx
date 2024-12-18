@@ -11,7 +11,7 @@ import { useMobileStore } from '@/lib/stores/mobile'
 
 export default function ChatInterface() {
   const { isMobile, setIsMobile } = useMobileStore()
-  const { hasSearched } = useChatStore()
+  const { status } = useChatStore()
 
   useEffect(() => {
     const checkMobile = () => {
@@ -35,7 +35,7 @@ export default function ChatInterface() {
       )}
 
       <div className="container mx-auto h-screen relative">
-        {hasSearched ? (
+        {status !== 'idle' ? (
           <ChatContainer isMobile={isMobile} />
         ) : (
           <WelcomeScreen isMobile={isMobile} />
