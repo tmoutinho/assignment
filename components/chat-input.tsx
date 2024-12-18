@@ -24,16 +24,21 @@ export function ChatInput({
     startStreaming,
     completeStreaming,
     pauseStreaming,
-    isStreaming,
-    isLoading,
+    status,
+    resumeStreaming,
   } = useChatStore()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!currentQuery.trim() || isLoading) return
+    if (!currentQuery.trim() || status === 'loading') return
 
-    if (isStreaming) {
+    if (status === 'streaming') {
       pauseStreaming()
+      return
+    }
+
+    if (status === 'paused') {
+      resumeStreaming()
       return
     }
 
@@ -71,7 +76,7 @@ export function ChatInput({
                 className="flex-1 py-2 focus:outline-none bg-transparent placeholder:text-[#808080] text-[#212222] font-medium text-xl leading-[57.08px] tracking-[-0.02em] resize-none"
                 value={currentQuery}
                 onChange={(e) => setQuery(e.target.value)}
-                disabled={isLoading}
+                disabled={status === 'loading'}
               />
             </div>
 
@@ -86,7 +91,7 @@ export function ChatInput({
               </div>
 
               <button type="submit" data-testid="submit-chat-form">
-                {isStreaming ? (
+                {status === 'streaming' ? (
                   <RoundedStop className="w-12 h-12" />
                 ) : (
                   <RoundedEnter
@@ -125,7 +130,7 @@ export function ChatInput({
             className="flex-1 py-2 focus:outline-none bg-transparent placeholder:text-[#808080] text-[#212222] font-medium text-xl leading-[57.08px] tracking-[-0.02em] resize-none"
             value={currentQuery}
             onChange={(e) => setQuery(e.target.value)}
-            disabled={isLoading}
+            disabled={status === 'loading'}
           />
         </div>
 
@@ -145,7 +150,7 @@ export function ChatInput({
           </div>
 
           <button type="submit" data-testid="submit-chat-form">
-            {isStreaming ? (
+            {status === 'streaming' ? (
               <RoundedStop className="w-8 h-8" />
             ) : (
               <RoundedEnter

@@ -12,7 +12,7 @@ interface ChatContainerProps {
 }
 
 export function ChatContainer({ isMobile }: ChatContainerProps) {
-  const { currentQuery, isLoading, isStreaming, messages } = useChatStore()
+  const { currentQuery, status, messages } = useChatStore()
 
   return (
     <div
@@ -40,7 +40,7 @@ export function ChatContainer({ isMobile }: ChatContainerProps) {
             : 'mt-[55px] mb-[140px] px-5',
         )}
       >
-        {isLoading && (
+        {status === 'loading' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -54,7 +54,9 @@ export function ChatContainer({ isMobile }: ChatContainerProps) {
           </motion.div>
         )}
 
-        {(isStreaming || (!isLoading && messages[0])) && (
+        {(status === 'streaming' ||
+          status === 'paused' ||
+          (status === 'complete' && messages[0])) && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -63,7 +65,6 @@ export function ChatContainer({ isMobile }: ChatContainerProps) {
           >
             <StreamingResponse
               content={messages[0].content}
-              isComplete={!isStreaming}
               isMobile={isMobile}
             />
           </motion.div>

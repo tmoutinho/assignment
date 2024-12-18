@@ -3,61 +3,56 @@ import { create } from 'zustand'
 interface ChatMessage {
   id: string
   content: string
-  type: 'user' | 'assistant'
-  status: 'loading' | 'streaming' | 'complete'
   timestamp: Date
 }
 
 interface ChatStore {
   messages: ChatMessage[]
-  isLoading: boolean
-  isStreaming: boolean
+  status: 'idle' | 'loading' | 'streaming' | 'complete' | 'paused'
   currentQuery: string
   hasSearched: boolean
   setQuery: (query: string) => void
   startSearch: () => void
   startStreaming: (response: string) => void
   pauseStreaming: () => void
+  resumeStreaming: () => void
   completeStreaming: () => void
   reset: () => void
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
   messages: [],
-  isLoading: false,
-  isStreaming: false,
+  status: 'idle',
   currentQuery: '',
   hasSearched: false,
 
   setQuery: (query) => set({ currentQuery: query }),
 
   startSearch: () => set({
-    isLoading: true,
+    status: 'loading',
     hasSearched: true,
     messages: []
   }),
 
   startStreaming: (response) => set({
-    isLoading: false,
-    isStreaming: true,
+    status: 'streaming',
     messages: [{
       id: crypto.randomUUID(),
       content: response,
-      type: 'assistant',
-      status: 'streaming',
       timestamp: new Date()
     }]
   }),
 
-  pauseStreaming: () => set({ isStreaming: false }),
+  pauseStreaming: () => set({ status: 'paused' }),
 
-  completeStreaming: () => set({ isStreaming: false }),
+  resumeStreaming: () => set({ status: 'streaming' }),
+
+  completeStreaming: () => set({ status: 'complete' }),
 
   reset: () => set({
     messages: [],
-    isLoading: false,
-    isStreaming: false,
+    status: 'idle',
     currentQuery: '',
-    hasSearched: false
+    hasSearched: false,
   })
 })) 

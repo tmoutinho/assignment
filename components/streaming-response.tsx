@@ -3,18 +3,18 @@ import { useEffect } from 'react'
 import { Copy, ThumbsUp, ThumbsDown, Logo } from '@/lib/icons'
 import { cn } from '@/lib/utils'
 import { useStreamingStore } from '@/lib/stores/streaming-store'
+import { useChatStore } from '@/lib/stores/chat'
 
 interface StreamingResponseProps {
   content: string
-  isComplete: boolean
   isMobile?: boolean
 }
 
 export function StreamingResponse({
   content,
-  isComplete,
   isMobile,
 }: StreamingResponseProps) {
+  const { status } = useChatStore()
   const {
     displayedContent,
     currentLineIndex,
@@ -25,10 +25,12 @@ export function StreamingResponse({
   } = useStreamingStore()
 
   useEffect(() => {
-    if (!isComplete) {
+    if (status !== 'complete') {
       const contentLines = content.split('\n')
 
       const interval = setInterval(() => {
+        if (status === 'paused') return
+
         if (currentLineIndex < contentLines.length) {
           const currentLine = contentLines[currentLineIndex]
 
@@ -59,7 +61,7 @@ export function StreamingResponse({
     content,
     currentLineIndex,
     currentCharIndex,
-    isComplete,
+    status,
     setDisplayedContent,
     setCurrentLineIndex,
     setCurrentCharIndex,
@@ -93,7 +95,7 @@ export function StreamingResponse({
             ))}
           </div>
 
-          {isComplete && (
+          {status === 'complete' && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

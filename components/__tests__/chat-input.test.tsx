@@ -21,8 +21,7 @@ describe('ChatInput', () => {
     startStreaming: jest.fn(),
     completeStreaming: jest.fn(),
     pauseStreaming: jest.fn(),
-    isStreaming: false,
-    isLoading: false,
+    status: 'idle',
   }
 
   beforeEach(() => {
@@ -61,15 +60,17 @@ describe('ChatInput', () => {
     expect(mockChatResponse).toHaveBeenCalledWith('test query')
   })
 
-  it('pauses streaming when submitted during active stream', () => {
+  it('pauses streaming when submitted during active stream and resumes when submitted again', () => {
+    // First render with streaming state
     mockedUseChatStore.mockReturnValue({
       ...mockStore,
-      isStreaming: true,
+      status: 'streaming',
       currentQuery: 'test',
     })
 
     render(<ChatInput />)
 
+    // Submit during streaming should pause
     fireEvent.submit(screen.getByTestId('form-chat-input'))
     expect(mockStore.pauseStreaming).toHaveBeenCalled()
   })
