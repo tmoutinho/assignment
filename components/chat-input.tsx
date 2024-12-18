@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { useChatStore } from '@/lib/stores/chat'
 import { mockChatResponse } from '@/lib/services/chat'
 import { RoundedPlus, RoundedEnter, RoundedStop } from '@/lib/icons'
+import { useStreamingStore } from '@/lib/stores/streaming-store'
 
 interface ChatInputProps {
   isMobile?: boolean
@@ -27,6 +28,7 @@ export function ChatInput({
     status,
     resumeStreaming,
   } = useChatStore()
+  const { reset } = useStreamingStore()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,6 +45,7 @@ export function ChatInput({
     }
 
     try {
+      reset()
       startSearch()
       const response = await mockChatResponse(currentQuery)
       startStreaming(response)

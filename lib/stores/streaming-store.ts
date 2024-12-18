@@ -7,6 +7,7 @@ interface StreamingState {
   setDisplayedContent: (content: string[] | ((prev: string[]) => string[])) => void
   setCurrentLineIndex: (index: number) => void
   setCurrentCharIndex: (index: number) => void
+  reset: () => void
 }
 
 export const useStreamingStore = create<StreamingState>((set) => ({
@@ -19,4 +20,9 @@ export const useStreamingStore = create<StreamingState>((set) => ({
     })),
   setCurrentLineIndex: (index) => set({ currentLineIndex: index }),
   setCurrentCharIndex: (index) => set({ currentCharIndex: index }),
+  reset: () => set({
+    displayedContent: [],
+    currentLineIndex: 0,
+    currentCharIndex: 0,
+  }),
 })) 
