@@ -9,6 +9,17 @@ import { Plus, Currency } from '@/lib/icons'
 import { WelcomeScreen } from '@/components/welcome-screen'
 import { useMobileStore } from '@/lib/stores/mobile'
 
+
+export async function generateMetadata() {
+  const res = await fetch("/api/meta", {
+    // Also reproduces with relative path; absolute included for clarity
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return { title: data.title as string };
+}
+
+
 export default function ChatInterface() {
   const { isMobile, setIsMobile } = useMobileStore()
   const { status } = useChatStore()
