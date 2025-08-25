@@ -1,5 +1,4 @@
-import ChatClient from '@/components/chat-client'
-import type { Metadata } from 'next'
+import { Metadata } from "next"
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -46,7 +45,6 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-
-export default function ChatInterface() {
-  return <ChatClient />
+export default function AboutUs() {
+  return <div>About Us</div>
 }
